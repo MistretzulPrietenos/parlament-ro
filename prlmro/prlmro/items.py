@@ -93,11 +93,7 @@ def normalize_act_politica(x):
 		return get_act_politica_item('intrebari_interpelari', ['nr'], nbs)
 	if fields[0] == u'Motiuni':
 		return get_act_politica_item('motiuni', ['nr'], nbs)
-		
-		
-		
-	print x	
-	
+
 	return None
 
 def htmllist_to_array(x):
@@ -105,7 +101,6 @@ def htmllist_to_array(x):
 	return x.strip().split('<li>')
 	
 def normalize_studii(x):
-	print x
 	return x	
 	
 def normalize_grp_parlamentar(x):

@@ -6,11 +6,11 @@ from scrapy.http import Request
 from scrapy.linkextractors import LinkExtractor
 from scrapy.selector import Selector
 from scrapy.loader.processors import TakeFirst, MapCompose, Join
-import urlparse
 
 
 
-class romanian_parliment_spider(CrawlSpider):
+
+class RomanianParlimentSpider(CrawlSpider):
 	name = "prlmro_spider"
 	allowed_domains = ["cdep.ro"]
 	start_urls = (
@@ -18,27 +18,25 @@ class romanian_parliment_spider(CrawlSpider):
     )
     
 	rules = (
-		Rule(LinkExtractor(allow=('structura\.mp\?(.*)idm=(170|165|410|411|156|412)(.*)', )), callback='parse_item'),
+		Rule(
+			LinkExtractor(
+				allow=('structura\.mp\?(.*)idm=(170|165|410|411|156|412)(.*)', )
+			), callback='parse_item'),
 	)
 	
 	def parse_cv_page(self, response):
-		xpath = Selector(response)
+		#xpath = Selector(response)
 		item = response.meta['item']
 		
 		loader = SenatorLoader(item=item, response=response)
 		
 		#print xpath.xpath(u'//*[text()="Studii şi specializări"]/following-sibling::ul')
-		
-		
-		
-		#
-		
 		loader.add_xpath('studii', u'//*[text()="Studii şi specializări"]/following-sibling::ul', TakeFirst())
 		
 		yield loader.load_item()
 	
 	def parse_item(self, response):
-		xpath = Selector(response)
+		#xpath = Selector(response)
 		loader = SenatorLoader(item=SenatorItem(), response=response)
 		
 		loader.add_value('url', response.url)
